@@ -1,0 +1,5 @@
+# Semantic Kernel for Python
+semantic-kernel>=1.37.0
+
+# Additional utilities
+python-dotenv>=1.0.0
