@@ -130,13 +130,13 @@ def chat():
         })
         
     except ValueError as e:
-        # Log the error for debugging but don't expose details to user
+        # Expose error details for demo purposes
         print(f"Configuration error: {e}")
-        return jsonify({'error': 'Configuration error. Please check server logs.'}), 500
+        return jsonify({'error': f'Configuration error: {str(e)}'}), 500
     except Exception as e:
-        # Log the error for debugging but don't expose details to user
+        # Expose error details for demo purposes
         print(f"Error in chat endpoint: {e}")
-        return jsonify({'error': 'An error occurred while processing your request.'}), 500
+        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
 
 
 @app.route('/api/clear', methods=['POST'])
@@ -152,9 +152,9 @@ def clear():
         return jsonify({'success': True})
         
     except Exception as e:
-        # Log the error for debugging but don't expose details to user
+        # Expose error details for demo purposes
         print(f"Error in clear endpoint: {e}")
-        return jsonify({'error': 'An error occurred while clearing the chat.'}), 500
+        return jsonify({'error': f'An error occurred while clearing the chat: {str(e)}'}), 500
 
 
 if __name__ == '__main__':

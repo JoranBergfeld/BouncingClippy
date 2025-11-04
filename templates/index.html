@@ -445,11 +445,13 @@
                 if (response.ok) {
                     addMessage(data.response, false);
                 } else {
-                    showError(data.error || 'An error occurred');
+                    // Show error in chat as a bot message for demo purposes
+                    addMessage('❌ Error: ' + (data.error || 'An error occurred'), false);
                 }
             } catch (error) {
                 hideTypingIndicator();
-                showError('Failed to connect to the server');
+                // Show connection error in chat as a bot message for demo purposes
+                addMessage('❌ Error: Failed to connect to the server - ' + error.message, false);
                 console.error('Error:', error);
             } finally {
                 messageInput.disabled = false;
