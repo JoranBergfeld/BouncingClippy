@@ -1,6 +1,8 @@
 # BouncingClippy 🎉
 
-A demonstration chat application showcasing **Azure AI integration** using **Semantic Kernel** and **Azure AI Foundry**. BouncingClippy provides an interactive command-line interface for conversational AI, highlighting key integration points with Azure's AI services.
+A demonstration chat application showcasing **Azure AI integration** using **Semantic Kernel** and **Azure AI Foundry**. BouncingClippy provides both an interactive web interface with a bouncing Clippy animation and a command-line interface for conversational AI, highlighting key integration points with Azure's AI services.
+
+![BouncingClippy Web Interface](https://github.com/user-attachments/assets/6f16a412-6db9-42cb-8495-f09de24f5c63)
 
 ## What is BouncingClippy?
 
@@ -38,7 +40,11 @@ Implements common patterns for chat applications:
 
 ## Features
 
-- 💬 **Interactive CLI**: Real-time chat interface with streaming responses
+- 🌐 **Web Interface**: Beautiful web UI with a bouncing Clippy animation
+- 💬 **Interactive Chat**: Real-time chat interface with Azure AI integration
+- 📎 **Animated Clippy**: Classic Microsoft assistant bouncing around the screen
+- 🎨 **Modern Design**: Responsive, gradient-themed interface
+- 💬 **Interactive CLI**: Real-time chat interface with streaming responses (legacy mode)
 - 🔄 **Context Awareness**: Multi-turn conversations with full history
 - ⚙️ **Configurable Models**: Easy switching between different Azure AI models
 - 🧹 **Session Management**: Clear conversation history on demand
@@ -70,6 +76,7 @@ pip install -r requirements.txt
 
 This installs:
 - `semantic-kernel>=1.37.0` - Microsoft's AI orchestration framework
+- `flask>=3.0.0` - Web framework for the web interface
 - `python-dotenv>=1.0.0` - Environment variable management
 
 ### 3. Configure Azure Credentials
@@ -96,7 +103,27 @@ AZURE_AI_FOUNDRY_MODEL=gpt-4o
 
 ## Running the Application
 
-### Standard Execution
+### Web Interface (Recommended)
+
+Start the web application:
+
+```bash
+python app.py
+```
+
+Then open your browser to:
+```
+http://localhost:5000
+```
+
+You'll see:
+- A bouncing Clippy animation on the screen (click it for a fun message!)
+- A chat interface in the bottom-right corner
+- The ability to chat with Azure AI through a beautiful web UI
+
+### Command-Line Interface (Legacy)
+
+For the traditional CLI experience:
 
 ```bash
 python bouncing_clippy.py
@@ -104,27 +131,36 @@ python bouncing_clippy.py
 
 ### Alternative: Using Environment Variables Directly
 
-**PowerShell:**
+**PowerShell (CLI mode):**
 ```powershell
 $env:AZURE_AI_FOUNDRY_ENDPOINT="https://your-resource.services.ai.azure.com"
 $env:AZURE_AI_FOUNDRY_API_KEY="your-api-key-here"
 $env:AZURE_AI_FOUNDRY_MODEL="gpt-4o"
-python bouncing_clippy.py
+python bouncing_clippy.py  # or python app.py for web interface
 ```
 
-**Bash/Linux:**
+**Bash/Linux (CLI mode):**
 ```bash
 export AZURE_AI_FOUNDRY_ENDPOINT="https://your-resource.services.ai.azure.com"
 export AZURE_AI_FOUNDRY_API_KEY="your-api-key-here"
 export AZURE_AI_FOUNDRY_MODEL="gpt-4o"
-python bouncing_clippy.py
+python bouncing_clippy.py  # or python app.py for web interface
 ```
 
 ## Usage
 
-### Available Commands
+### Web Interface
 
-Once running, BouncingClippy accepts the following commands:
+Once the web app is running at `http://localhost:5000`:
+
+1. **Watch Clippy Bounce**: The animated Clippy bounces around the screen - click it for a fun message!
+2. **Chat Interface**: Use the chat box in the bottom-right corner to interact with Azure AI
+3. **Send Messages**: Type your message and click "Send" or press Enter
+4. **Clear History**: Click "Clear Chat" to start a fresh conversation
+
+### Command-Line Interface
+
+Once running, BouncingClippy CLI accepts the following commands:
 
 | Command | Description |
 |---------|-------------|
@@ -174,6 +210,7 @@ Thanks for chatting with BouncingClippy! Goodbye! 👋
 | `AZURE_AI_FOUNDRY_ENDPOINT` | ✅ Yes | - | Your Azure AI Foundry endpoint URL (e.g., `https://*.services.ai.azure.com`) |
 | `AZURE_AI_FOUNDRY_API_KEY` | ✅ Yes | - | Your Azure AI Foundry API key |
 | `AZURE_AI_FOUNDRY_MODEL` | ⚠️ Optional | `gpt-4o` | The deployment name of your model |
+| `FLASK_DEBUG` | ⚠️ Optional | `false` | Set to `true` to enable Flask debug mode (development only) |
 
 ### Common Model Deployment Names
 
@@ -190,7 +227,11 @@ Thanks for chatting with BouncingClippy! Goodbye! 👋
 
 ```
 ┌─────────────────────────────────────┐
-│     BouncingClippy (Python CLI)     │
+│   BouncingClippy (Web + CLI)        │
+├─────────────────────────────────────┤
+│      Flask Web Framework            │
+│   (Web Interface with Bouncing      │
+│    Clippy Animation)                │
 ├─────────────────────────────────────┤
 │      Semantic Kernel (1.37.x)       │
 ├─────────────────────────────────────┤
@@ -205,17 +246,20 @@ Thanks for chatting with BouncingClippy! Goodbye! 👋
 ### Code Structure
 
 ```
-bouncing_clippy.py          # Main application
-├── BouncingClippy class    # Chat orchestration
-│   ├── __init__()          # Azure service setup
-│   ├── send_message()      # Message handling
-│   └── clear_history()     # Session management
-└── main()                  # CLI interface
+app.py                      # Flask web application (NEW)
+templates/
+└── index.html             # Web UI with bouncing Clippy (NEW)
+bouncing_clippy.py         # CLI application (legacy)
+├── BouncingClippy class   # Chat orchestration
+│   ├── __init__()         # Azure service setup
+│   ├── send_message()     # Message handling
+│   └── clear_history()    # Session management
+└── main()                 # CLI interface
 
-requirements.txt            # Python dependencies
-.env                       # Azure credentials (gitignored)
-.env.example              # Configuration template
-README.md                 # This file
+requirements.txt           # Python dependencies
+.env                      # Azure credentials (gitignored)
+.env.example             # Configuration template
+README.md                # This file
 ```
 
 ## Troubleshooting
@@ -277,12 +321,14 @@ pip install -r requirements.txt
 
 Once you have BouncingClippy running, consider exploring:
 
-1. **Add Plugins**: Extend with custom functions using Semantic Kernel plugins
-2. **Streaming Responses**: Implement streaming for real-time token generation
-3. **Multiple Agents**: Build multi-agent conversations
-4. **Vector Search**: Integrate Azure AI Search for RAG patterns
-5. **Web Interface**: Convert to a web app using Flask or FastAPI
-6. **Function Calling**: Add tool use and function calling capabilities
+1. **Customize Clippy**: Modify the SVG in `templates/index.html` to change Clippy's appearance
+2. **Add Plugins**: Extend with custom functions using Semantic Kernel plugins
+3. **Streaming Responses**: Implement streaming for real-time token generation
+4. **Multiple Agents**: Build multi-agent conversations
+5. **Vector Search**: Integrate Azure AI Search for RAG patterns
+6. **Enhanced UI**: Add more animations, themes, or customize the chat interface
+7. **Function Calling**: Add tool use and function calling capabilities
+8. **Deploy to Cloud**: Host on Azure App Service or Azure Container Apps
 
 ## License
 
