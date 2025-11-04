@@ -130,9 +130,13 @@ def chat():
         })
         
     except ValueError as e:
-        return jsonify({'error': str(e)}), 500
+        # Log the error for debugging but don't expose details to user
+        print(f"Configuration error: {e}")
+        return jsonify({'error': 'Configuration error. Please check server logs.'}), 500
     except Exception as e:
-        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+        # Log the error for debugging but don't expose details to user
+        print(f"Error in chat endpoint: {e}")
+        return jsonify({'error': 'An error occurred while processing your request.'}), 500
 
 
 @app.route('/api/clear', methods=['POST'])
@@ -148,7 +152,9 @@ def clear():
         return jsonify({'success': True})
         
     except Exception as e:
-        return jsonify({'error': f'An error occurred: {str(e)}'}), 500
+        # Log the error for debugging but don't expose details to user
+        print(f"Error in clear endpoint: {e}")
+        return jsonify({'error': 'An error occurred while clearing the chat.'}), 500
 
 
 if __name__ == '__main__':
@@ -163,4 +169,7 @@ if __name__ == '__main__':
     
     print("🎉 Starting BouncingClippy Web App...")
     print("🌐 Open your browser to: http://localhost:5000")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # Only enable debug mode if explicitly set in environment
+    debug_mode = os.environ.get('FLASK_DEBUG', 'False').lower() == 'true'
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)

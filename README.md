@@ -210,6 +210,7 @@ Thanks for chatting with BouncingClippy! Goodbye! 👋
 | `AZURE_AI_FOUNDRY_ENDPOINT` | ✅ Yes | - | Your Azure AI Foundry endpoint URL (e.g., `https://*.services.ai.azure.com`) |
 | `AZURE_AI_FOUNDRY_API_KEY` | ✅ Yes | - | Your Azure AI Foundry API key |
 | `AZURE_AI_FOUNDRY_MODEL` | ⚠️ Optional | `gpt-4o` | The deployment name of your model |
+| `FLASK_DEBUG` | ⚠️ Optional | `false` | Set to `true` to enable Flask debug mode (development only) |
 
 ### Common Model Deployment Names
 
