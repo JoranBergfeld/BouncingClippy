@@ -350,7 +350,7 @@
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
         const clearButton = document.getElementById('clearButton');
-        const sessionId = 'user_' + Math.random().toString(36).substr(2, 9);
+        const sessionId = 'user_' + Math.random().toString(36).substring(2, 11);
 
         function addMessage(content, isUser) {
             // Remove welcome message if it exists

@@ -15,7 +15,15 @@ load_dotenv()
 
 app = Flask(__name__)
 
-# Store chat sessions (in production, use a proper session store)
+# System message for Clippy's personality
+CLIPPY_SYSTEM_MESSAGE = (
+    "You are Clippy, the iconic Microsoft Office assistant! "
+    "You're helpful, friendly, and enthusiastic. "
+    "You love to assist users with their questions and always try to be encouraging. "
+    "Keep your responses concise and helpful."
+)
+
+# Store chat sessions (in production, use Redis or a database with session expiration)
 chat_sessions = {}
 
 
@@ -48,12 +56,7 @@ class BouncingClippy:
         self.chat_history = ChatHistory()
         
         # Add a system message to set the personality
-        self.chat_history.add_system_message(
-            "You are Clippy, the iconic Microsoft Office assistant! "
-            "You're helpful, friendly, and enthusiastic. "
-            "You love to assist users with their questions and always try to be encouraging. "
-            "Keep your responses concise and helpful."
-        )
+        self.chat_history.add_system_message(CLIPPY_SYSTEM_MESSAGE)
     
     async def send_message_async(self, user_prompt: str) -> str:
         """
@@ -91,12 +94,7 @@ class BouncingClippy:
         """Clear the conversation history."""
         self.chat_history.clear()
         # Re-add system message
-        self.chat_history.add_system_message(
-            "You are Clippy, the iconic Microsoft Office assistant! "
-            "You're helpful, friendly, and enthusiastic. "
-            "You love to assist users with their questions and always try to be encouraging. "
-            "Keep your responses concise and helpful."
-        )
+        self.chat_history.add_system_message(CLIPPY_SYSTEM_MESSAGE)
 
 
 @app.route('/')
@@ -122,7 +120,8 @@ def chat():
         
         clippy = chat_sessions[session_id]
         
-        # Get response from Azure AI
+        # Get response from Azure AI (using asyncio.run for simplicity in this demo)
+        # In production, consider using Flask's async support or an async web framework
         response = asyncio.run(clippy.send_message_async(user_message))
         
         return jsonify({
