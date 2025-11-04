@@ -243,16 +243,6 @@
                 border-radius: 0;
             }
         }
-
-        /* Error message */
-        .error-message {
-            background: #ff6b6b;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -397,18 +387,6 @@
             if (indicator) {
                 indicator.parentElement.remove();
             }
-        }
-
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = '❌ ' + message;
-            chatMessages.appendChild(errorDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            setTimeout(() => {
-                errorDiv.remove();
-            }, 5000);
         }
 
         async function sendMessage() {
