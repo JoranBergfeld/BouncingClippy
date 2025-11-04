@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """
 BouncingClippy Web App - A web-based chat interface with bouncing Clippy powered by Azure AI Foundry
+
+SECURITY NOTE: This is a demo/educational application. Error messages are intentionally
+exposed to help users understand and debug issues. For production deployments, error messages
+should be sanitized to avoid exposing sensitive infrastructure details, stack traces, or
+internal implementation information.
 """
 
 import asyncio
