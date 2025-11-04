@@ -243,16 +243,6 @@
                 border-radius: 0;
             }
         }
-
-        /* Error message */
-        .error-message {
-            background: #ff6b6b;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            margin: 10px;
-            text-align: center;
-        }
     </style>
 </head>
 <body>
@@ -399,18 +389,6 @@
             }
         }
 
-        function showError(message) {
-            const errorDiv = document.createElement('div');
-            errorDiv.className = 'error-message';
-            errorDiv.textContent = '❌ ' + message;
-            chatMessages.appendChild(errorDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-            
-            setTimeout(() => {
-                errorDiv.remove();
-            }, 5000);
-        }
-
         async function sendMessage() {
             const message = messageInput.value.trim();
             if (!message) return;
@@ -445,11 +423,13 @@
                 if (response.ok) {
                     addMessage(data.response, false);
                 } else {
-                    showError(data.error || 'An error occurred');
+                    // Show error in chat as a bot message for demo purposes
+                    addMessage('❌ Error: ' + (data.error || 'An error occurred'), false);
                 }
             } catch (error) {
                 hideTypingIndicator();
-                showError('Failed to connect to the server');
+                // Show connection error in chat as a bot message for demo purposes
+                addMessage('❌ Error: Failed to connect to the server - ' + error.message, false);
                 console.error('Error:', error);
             } finally {
                 messageInput.disabled = false;
@@ -460,7 +440,7 @@
 
         async function clearChat() {
             try {
-                await fetch('/api/clear', {
+                const response = await fetch('/api/clear', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -470,16 +450,24 @@
                     })
                 });
                 
-                // Clear messages
-                chatMessages.innerHTML = `
-                    <div class="welcome-message">
-                        <h2>👋 Hi there! I'm Clippy!</h2>
-                        <p>I'm here to help you with anything you need.</p>
-                        <p>Ask me a question or just say hello! 😊</p>
-                    </div>
-                `;
+                const data = await response.json();
+                
+                if (response.ok) {
+                    // Clear messages
+                    chatMessages.innerHTML = `
+                        <div class="welcome-message">
+                            <h2>👋 Hi there! I'm Clippy!</h2>
+                            <p>I'm here to help you with anything you need.</p>
+                            <p>Ask me a question or just say hello! 😊</p>
+                        </div>
+                    `;
+                } else {
+                    // Show error in chat as a bot message for demo purposes
+                    addMessage('❌ Error clearing chat: ' + (data.error || 'An error occurred'), false);
+                }
             } catch (error) {
-                showError('Failed to clear chat');
+                // Show connection error in chat as a bot message for demo purposes
+                addMessage('❌ Error: Failed to clear chat - ' + error.message, false);
                 console.error('Error:', error);
             }
         }
